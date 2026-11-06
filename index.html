@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#191923">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<title>Depo Takip Mobil</title>
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icons/icon-192.png">
+<link rel="apple-touch-icon" href="icons/icon-192.png">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- GİRİŞ -->
+<section id="loginView" class="view login" hidden>
+  <div class="login-card">
+    <div class="logo">▮▯▮▮▯▮</div>
+    <h1>Depo Takip</h1>
+    <p class="muted">Zimmet kontrolü ve malzeme arama</p>
+    <form id="loginForm" autocomplete="off">
+      <label>Sicil
+        <input id="sicil" inputmode="numeric" autocomplete="username" required>
+      </label>
+      <label>Parola
+        <input id="parola" type="password" autocomplete="current-password" required>
+      </label>
+      <button class="btn primary" type="submit">Giriş yap</button>
+      <p id="loginErr" class="err" role="alert"></p>
+    </form>
+    <p id="demoHint" class="demo-hint" hidden>DEMO: herhangi bir sicil, parola <b>demo</b></p>
+  </div>
+</section>
+
+<!-- UYGULAMA -->
+<div id="appView" hidden>
+  <header class="topbar">
+    <div>
+      <div class="title" id="screenTitle">Zimmet Kontrolü</div>
+      <div class="sub" id="donemInfo"></div>
+    </div>
+    <button id="menuBtn" class="icon-btn" aria-label="Menü">⋮</button>
+  </header>
+  <div id="demoBanner" class="banner" hidden>DEMO VERİSİ — gerçek kayıtlara bağlı değil</div>
+
+  <main>
+    <!-- ZİMMET KONTROL -->
+    <section id="tabZimmet" class="tab">
+      <div class="row">
+        <select id="personSel" aria-label="Zimmet sahibi"></select>
+        <button id="scanBtn" class="btn primary scan">📷 Okut</button>
+      </div>
+
+      <div class="progress-wrap">
+        <div class="progress"><div id="progBar"></div></div>
+        <div class="counts">
+          <span class="chip found"><b id="cFound">0</b> Bulundu</span>
+          <span class="chip wait"><b id="cWait">0</b> Bekliyor</span>
+          <span class="chip lost"><b id="cLost">0</b> Kayıp</span>
+        </div>
+      </div>
+
+      <div class="filters" id="statusFilter">
+        <button data-f="" class="on">Tümü</button>
+        <button data-f="Bekliyor">Bekleyen</button>
+        <button data-f="Bulundu">Bulunan</button>
+        <button data-f="Kayıp">Kayıp</button>
+      </div>
+
+      <ul id="kalemList" class="list"></ul>
+      <p id="kalemEmpty" class="empty" hidden>Kayıt yok</p>
+    </section>
+
+    <!-- MALZEME ARA -->
+    <section id="tabAra" class="tab" hidden>
+      <div class="row">
+        <input id="q" type="search" placeholder="TAI NO, ad, seri no, kişi, raf…" enterkeyhint="search" autocomplete="off">
+        <button id="scanSearchBtn" class="btn scan" aria-label="Kamera ile ara">📷</button>
+      </div>
+      <p id="searchInfo" class="muted small"></p>
+      <ul id="searchList" class="list"></ul>
+    </section>
+  </main>
+
+  <nav class="tabbar">
+    <button data-tab="tabZimmet" class="on"><span>✔</span>Zimmet Kontrol</button>
+    <button data-tab="tabAra"><span>🔍</span>Malzeme Ara</button>
+  </nav>
+</div>
+
+<!-- KAMERA -->
+<div id="scanner" class="scanner" hidden>
+  <video id="video" playsinline muted></video>
+  <div class="frame"></div>
+  <div class="scan-top">
+    <button id="scanClose" class="btn">Kapat</button>
+    <span id="scanTitle">Barkodu çerçeveye alın</span>
+  </div>
+  <div id="scanResult" class="scan-result" hidden></div>
+  <form id="manualForm" class="manual">
+    <input id="manualInput" placeholder="TAI NO elle gir" autocomplete="off" autocapitalize="characters">
+    <button class="btn" type="submit">Tamam</button>
+  </form>
+  <p id="scanErr" class="err scan-err" hidden></p>
+</div>
+
+<!-- KALEM DETAY / DURUM -->
+<div id="sheet" class="sheet" hidden>
+  <div class="sheet-bg"></div>
+  <div class="sheet-body">
+    <h3 id="shName"></h3>
+    <dl id="shInfo"></dl>
+    <div class="sheet-actions">
+      <button class="btn found" data-d="Bulundu">Bulundu</button>
+      <button class="btn lost" data-d="Kayıp">Kayıp</button>
+      <button class="btn" data-d="Bekliyor">Bekliyor</button>
+    </div>
+    <button id="shClose" class="btn wide">Kapat</button>
+  </div>
+</div>
+
+<div id="menu" class="menu" hidden>
+  <button id="resetBtn">Demo verisini sıfırla</button>
+  <button id="logoutBtn">Çıkış</button>
+</div>
+<div id="toast" class="toast" hidden></div>
+
+<script src="data.js"></script>
+<script src="scanner.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
